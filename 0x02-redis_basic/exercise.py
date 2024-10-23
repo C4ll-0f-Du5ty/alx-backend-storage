@@ -7,7 +7,7 @@
 
 import redis
 import uuid
-
+import typing
 
 class Cache():
     """_summary_
@@ -20,7 +20,7 @@ class Cache():
         self._redis: redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data) -> str:
+    def store(self, data: typing.Union[str, float, int, bytes]) -> str:
         key: str = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
