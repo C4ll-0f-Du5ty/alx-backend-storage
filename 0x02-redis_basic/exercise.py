@@ -79,10 +79,22 @@ class Cache():
     """
 
     def __init__(self):
+        """_summary_
+        """
         self._redis: redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
+    @call_history
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
+        """_summary_
+
+        Args:
+            data (typing.Union[str, bytes, int, float]): _description_
+
+        Returns:
+            str: _description_
+        """
         key: str = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
