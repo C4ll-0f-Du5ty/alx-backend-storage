@@ -8,13 +8,13 @@
 import redis
 import uuid
 import typing
+import functools
 
-
-def count_calls(method: Callable) -> Callable:
+def count_calls(method: typing.Callable) -> typing.Callable:
     """returns a Callable"""
     key = method.__qualname__
 
-    @wraps(method)
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         """wrapper for decorated function"""
         self._redis.incr(key)
@@ -23,9 +23,9 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
-def call_history(method: Callable) -> Callable:
+def call_history(method: typing.Callable) -> typing.Callable:
     """store the history of inputs and outputs"""
-    @wraps(method)
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         """wrapper for the decorated function"""
         input = str(args)
@@ -37,7 +37,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(fn: Callable):
+def replay(fn: typing.Callable):
     """display the history of calls of a particular function"""
     r = redis.Redis()
     function_name = fn.__qualname__
