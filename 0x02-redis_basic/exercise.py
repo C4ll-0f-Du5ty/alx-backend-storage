@@ -15,12 +15,12 @@ class Cache():
     Returns:
         _type_: _description_
     """
-    _redis = redis.Redis()
+    _redis: redis = redis.Redis()
 
     def __init__(self):
         Cache._redis.flushdb()
 
     def store(self, data) -> str:
-        key = str(uuid.uuid4())
+        key: str = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
